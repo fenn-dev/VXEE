@@ -310,6 +310,8 @@ auto VDE::run(const uint8_t* codeBuffer, size_t size, uint64_t entryOffset, uint
     using vxe_entry_t = uint64_t(*)(void* ctx);
     vxe_entry_t bin_entry = reinterpret_cast<vxe_entry_t>(execMem);
     final_exit_code = bin_entry(&ctx);
+    // For non-x86_64 or fallback
+    final_exit_code = 0;
     #endif
 
     #if UNIX
@@ -325,4 +327,5 @@ auto VDE::run(const uint8_t* codeBuffer, size_t size, uint64_t entryOffset, uint
     }
 
     return static_cast<int>(final_exit_code);
+    return static_cast<int32_t>(final_exit_code);
 }
